@@ -1,72 +1,89 @@
-function computerPlay() 
-{
+const userScore = document.querySelector('.user-score');
+const compScore = document.querySelector('.comp-score');
+let userWins = 0, compWins = 0;
+
+function computerPlay() {
     let num = Math.floor(Math.random() * 3) + 1;
 
-    if(num == 1) return "rock";
+    if (num == 1) return "rock";
     else if (num == 2) return "paper";
     else return "scissors";
 }
 
-function playRound(playerSelection, computerSelection)
-{
-    playerSelection = playerSelection.toLowerCase();
+function playRound(playerSelection, computerSelection) {
+    const result = document.querySelector('.result');
 
-    if (playerSelection == "rock")
-    {
-        if (computerSelection == "scissors")
-            return "You win! Rock beats scissors";
-        
-        else if (computerSelection == "paper")
-            return "You lose! Paper beats rock."
+    if (playerSelection == "rock") {
+        if (computerSelection == "scissors"){
+            result.textContent = "You win! Rock beats scissors";
+            userWins++;
+        }
+            
 
-        else 
-            return "Tie! Rock equals rock.";
+        else if (computerSelection == "paper"){
+            result.textContent = "You lose! Paper beats rock."
+            compWins++;
+        }
+    
+        else
+        result.textContent = "Tie! Rock equals rock.";
     }
 
-    else if (playerSelection == "paper")
-    {
-        if(computerSelection == "rock")
-            return "You win! Paper beats rock";
+    else if (playerSelection == "paper") {
+        if (computerSelection == "rock"){
+            result.textContent = "You win! Paper beats rock";
+            userWins++;
+        }
         
-        else if (computerSelection == "scissors")
-            return "You lose! Scissors beats paper."
+        else if (computerSelection == "scissors"){
+            result.textContent = "You lose! Scissors beats paper."
+            compWins++;
+        }
 
-        else 
-            return "Tie! Paper equals paper.";
+        else {
+            result.textContent = "Tie! Paper equals paper.";
+        }
     }
 
-    else if (playerSelection == "scissors")
-    {
-        if(computerSelection == "paper")
-            return "You win! Scissors beats paper";
-        
-        else if (computerSelection == "rock")
-            return "You lose! Rock beats scissors."
+    else if (playerSelection == "scissors") {
+        if (computerSelection == "paper"){
+            result.textContent = "You win! Scissors beats paper";
+            userWins++;
+        }  
+            
+
+        else if (computerSelection == "rock"){
+            compWins++;
+            result.textContent = "You lose! Rock beats scissors."
+        }              
 
         else 
-            return "Tie! Scissors equals scissors.";
+            result.textContent = "Tie! Scissors equals scissors.";
     }
+
+    userScore.textContent = `You: ${userWins}`;
+    compScore.textContent = `Computer: ${compWins}`;
+
+    if(userWins == 5)
+        result.textContent = "Game over. You Win!"
+
+    else if (compWins == 5)
+        result.textContent = "Game over. You Lost!"
+
 }
 
-function game()
-{
-    let wins = 0, losses = 0;
-    let result, input;
+const rockBtn = document.querySelector('.rock');
+const paperBtn = document.querySelector('.paper');
+const scissorsBtn = document.querySelector('.scissors');
 
-    for(let i = 0; i < 5; i++)
-    {
-        input = window.prompt("Rock, paper, or scissors:")
-        result = playRound(input, computerPlay());
+rockBtn.addEventListener('click', () => {
+    playRound("rock", computerPlay());
+});
 
-        if (result.includes("win"))
-            wins++;
+paperBtn.addEventListener('click', () => {
+    playRound("paper", computerPlay());
+});
 
-        else if (result.includes("lose"))
-            losses++;
-
-        console.log(result);
-        console.log("Wins: " + wins);
-        console.log("Losses: " + losses);
-    }
-}
-game();
+scissorsBtn.addEventListener('click', () => {
+    playRound("scissors", computerPlay());
+});
